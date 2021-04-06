@@ -1,2 +1,2 @@
-DROP DATABASE IF EXISTS managesystems;
-CREATE DATABASE managesystems;
+DROP DATABASE IF EXISTS manage_db;
+CREATE DATABASE manage_db;
