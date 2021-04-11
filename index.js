@@ -59,19 +59,19 @@ function viewData(res) {
     case 'Departments':
       connection.query('SELECT * FROM department', function (err, result) {
         if (err) throw err;
-        console.log(result);
+        console.table(result);
       });
       break;
     case 'Roles':
       connection.query('SELECT * FROM role', function (err, result) {
         if (err) throw err;
-        console.log(result);
+        console.table(result);
       });
       break;
     case 'Employees':
       connection.query('SELECT * FROM employee', function (err, result) {
         if (err) throw err;
-        console.log(result);
+        console.table(result);
       });
       break;
   }
