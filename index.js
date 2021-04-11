@@ -1,7 +1,7 @@
 const inquirer = require('inquirer');
 // const db = require('./db')
 const mysql = require('mysql');
-require('dotenv').config()
+require('dotenv').config();
 
 
 const connection = mysql.createConnection({
@@ -30,21 +30,36 @@ function database() {
     name: 'role',
     type: 'list',
     message: 'Select an option to perform this action. Note that updating only works with employee roles.',
-    choices: ['Department', 'Role', 'Employee']
+    choices: ['Departments', 'Roles', 'Employees']
   }
   ])
     .then(function (res) {
       switch (res.main) {
         case 'Add':
-          console.log(`You chose to add a ${res.role}`);
+          console.log(`You chose to add to the ${res.role}`);
           break;
         case 'View':
-          console.log(`You chose to add a ${res.role}`);
+          console.log(`You chose to view the ${res.role}`);
+          viewData(res.role)
           break;
         case 'Update employee roles':
-          console.log(`You chose to add a ${res.role}`);
+          if (res.role != 'Employee') {
+            console.log('You picked something other than employee to update. Updating only workes with employee roles. Restarting program.')
+            database();
+          } else {
+            console.log(`You chose to update a ${res.role}`);
+          }
           break;
-      }
-    })
-  // connection.end();
-}
+      };
+    });
+};
+
+function viewData(res) {
+  switch (res) {
+    case 'Departments': 
+    connection.query('SELECT * FROM department', function (err, result) {
+      if (err) throw err;
+      console.log(result);
+    });
+  }
+};
