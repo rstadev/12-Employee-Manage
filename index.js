@@ -14,5 +14,10 @@ const connection = mysql.createConnection({
 
 connection.connect(err => {
   if (err) throw err;
-  console.log(`We connected! Connected as thread id ${connection.thread}`)
-})
+  console.log(`We connected! Connected as thread id ${connection.thread}`);
+  database();
+});
+
+function database() {
+  connection.end();
+}
