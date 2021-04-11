@@ -33,6 +33,8 @@ CREATE TABLE employee(
 
 SELECT * FROM employee;
 
+-- Data below this should not be copied unless seeding data. For normal usage, copy and paste above this line.
+
 INSERT INTO department (name)
 VALUES ("frontend");
 

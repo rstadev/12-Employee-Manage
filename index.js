@@ -19,28 +19,30 @@ connection.connect(err => {
 });
 
 function database() {
-  inquirer.prompt([{
-    name: 'main',
-    type: 'list',
-    message: 'Welcome! Please select an option.',
-    choices: ['Add', 'View',
-      'Update employee roles']
-  },
-  {
-    name: 'role',
-    type: 'list',
-    message: 'Select an option to perform this action. Note that updating only works with employee roles.',
-    choices: ['Departments', 'Roles', 'Employees']
-  }
+  inquirer.prompt([
+    {
+      name: 'main',
+      type: 'list',
+      message: 'Welcome! Please select an option.',
+      choices: ['Add', 'View',
+        'Update employee roles']
+    },
+    {
+      name: 'role',
+      type: 'list',
+      message: 'Select an option to perform this action. Note that updating only works with employee roles.',
+      choices: ['Departments', 'Roles', 'Employees']
+    }
   ])
     .then(function (res) {
       switch (res.main) {
         case 'Add':
           console.log(`You chose to add to the ${res.role}`);
+          addData(res.role);
           break;
         case 'View':
           console.log(`You chose to view the ${res.role}`);
-          viewData(res.role)
+          viewData(res.role);
           break;
         case 'Update employee roles':
           if (res.role != 'Employee') {
@@ -76,3 +78,58 @@ function viewData(res) {
       break;
   }
 };
+
+function addData(res) {
+  switch (res) {
+    case 'Employees':
+      inquirer.prompt([
+        {
+          name: 'first_name',
+          type: 'input',
+          message: 'What is the employee"s first name',
+        },
+        {
+          name: 'last_name',
+          type: 'input',
+          message: 'What is the employee"s last name?'
+        },
+        {
+          name: 'role_id',
+          type: 'input',
+          message: 'What is the employee"s role ID? The role ID to role name can be found by viewing the role table.'
+        },
+        {
+          name: 'What is the employee"s manager"s id? This can be found by viewing all employees. If the employee is a manager, or self manages, this field can be left blank.'
+        },
+      ])
+        .then(function (res) {
+          console.log('You did it :)')
+        })
+    case 'Departments':
+      inquirer.prompt([
+        {
+          name: 'dep_name',
+          type: 'input',
+          message: 'What is the name of the department you would like to add?'
+        }
+      ])
+        .then(function (res) {
+          connection.query(
+            'INSERT INTO department SET ?', 
+            {name : res.dep_name},
+            function (err, result) {
+              if (err) throw err;
+              console.log("Number of records inserted: " + result.affectedRows);
+            }
+          )
+        })
+  };
+
+  // switch (res) {
+  //   case 'Department':
+  //     connection.query('SELECT * FROM department', function (err, result) {
+  //       if (err) throw err;
+  //       console.table(result);
+  //     })
+  // }
+}
