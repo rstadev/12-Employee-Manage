@@ -86,7 +86,7 @@ function addData(res) {
         {
           name: 'first_name',
           type: 'input',
-          message: 'What is the employee"s first name',
+          message: 'What is the employee"s first name?',
         },
         {
           name: 'last_name',
@@ -99,12 +99,27 @@ function addData(res) {
           message: 'What is the employee"s role ID? The role ID to role name can be found by viewing the role table.'
         },
         {
-          name: 'What is the employee"s manager"s id? This can be found by viewing all employees. If the employee is a manager, or self manages, this field can be left blank.'
+          name: 'manager_id',
+          type: 'input',
+          message: 'What is the employee"s manager"s id? This can be found by viewing all employees. If the employee is a manager, or self manages, this field can be left blank.'
         },
       ])
         .then(function (res) {
-          console.log('You did it :)')
+          connection.query(
+            'INSERT INTO employee SET ?',
+            {
+              first_name: res.first_name,
+              last_name: res.last_name,
+              role_id: res.role_id,
+              manager_id: res.manager_id
+            },
+            function (err, result) {
+              if (err) throw err;
+              console.log("Number of records inserted: " + result.affectedRows);
+            }
+          )
         })
+        break;
     case 'Departments':
       inquirer.prompt([
         {
@@ -115,14 +130,15 @@ function addData(res) {
       ])
         .then(function (res) {
           connection.query(
-            'INSERT INTO department SET ?', 
-            {name : res.dep_name},
+            'INSERT INTO department SET ?',
+            { name: res.dep_name },
             function (err, result) {
               if (err) throw err;
               console.log("Number of records inserted: " + result.affectedRows);
             }
           )
-        })
+        });
+        break;
   };
 
   // switch (res) {
