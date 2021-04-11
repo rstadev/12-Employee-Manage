@@ -14,10 +14,37 @@ const connection = mysql.createConnection({
 
 connection.connect(err => {
   if (err) throw err;
-  console.log(`We connected! Connected as thread id ${connection.thread}`);
+  console.log(`We connected!`);
   database();
 });
 
 function database() {
-  connection.end();
+  inquirer.prompt([{
+    name: 'main',
+    type: 'list',
+    message: 'Welcome! Please select an option.',
+    choices: ['Add', 'View',
+      'Update employee roles']
+  },
+  {
+    name: 'role',
+    type: 'list',
+    message: 'Select an option to perform this action. Note that updating only works with employee roles.',
+    choices: ['Department', 'Role', 'Employee']
+  }
+  ])
+    .then(function (res) {
+      switch (res.main) {
+        case 'Add':
+          console.log(`You chose to add a ${res.role}`);
+          break;
+        case 'View':
+          console.log(`You chose to add a ${res.role}`);
+          break;
+        case 'Update employee roles':
+          console.log(`You chose to add a ${res.role}`);
+          break;
+      }
+    })
+  // connection.end();
 }
