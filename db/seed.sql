@@ -10,17 +10,17 @@ CREATE TABLE department(
   PRIMARY KEY (id)
 );
 -- Useful for quickly showing data from each table.
-SELECT * FROM department
+SELECT * FROM department;
 
 CREATE TABLE role(
   id INT AUTO_INCREMENT NOT NULL,
   title VARCHAR(30),
   salary DECIMAL,
-  department_id INT NOT NULL;
+  department_id INT NOT NULL,
   PRIMARY KEY (id)
 );
 
-SELECT * FROM role
+SELECT * FROM role;
 
 CREATE TABLE employee(
   id INT AUTO_INCREMENT NOT NULL,
@@ -31,4 +31,28 @@ CREATE TABLE employee(
   PRIMARY KEY (id)
 );
 
-SELECT * FROM employee
+SELECT * FROM employee;
+
+INSERT INTO department (name)
+VALUES ("frontend");
+
+INSERT INTO department (name)
+VALUES ("backend");
+
+INSERT INTO role (title, salary, department_id)
+VALUES ("Manager", 30000, 1);
+
+INSERT INTO role (title, salary, department_id)
+VALUES ("HTML Developer", 21000, 1);
+
+INSERT INTO role (title, salary, department_id)
+VALUES ("Javascript Engineer", 23000, 2);
+
+INSERT INTO employee (first_name, last_name, role_id)
+VALUES ("Conrad", "Roewing", 1);
+
+INSERT INTO employee (first_name, last_name, role_id, manager_id)
+VALUES ("Rachel", "Bennings", 2, 1);
+
+INSERT INTO employee (first_name, last_name, role_id)
+VALUES ("Ben", "Wilson", 3);
