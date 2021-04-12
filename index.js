@@ -2,7 +2,8 @@ const inquirer = require('inquirer');
 // const db = require('./db')
 const mysql = require('mysql');
 require('dotenv').config();
-
+//used to compare if input contains numbers
+// let isnum = /^\d+$/.test(val)
 
 const connection = mysql.createConnection({
   host: 'localhost',
@@ -24,8 +25,7 @@ function database() {
       name: 'main',
       type: 'list',
       message: 'Welcome! Please select an option.',
-      choices: ['Add', 'View',
-        'Update employee roles']
+      choices: ['Add', 'View', 'Update employee roles']
     },
     {
       name: 'role',
@@ -99,6 +99,7 @@ function addData(res) {
           message: 'What is the employee"s role ID? The role ID to role name can be found by viewing the role table.'
         },
         {
+          //Cannot be left null right now. Bug.
           name: 'manager_id',
           type: 'input',
           message: 'What is the employee"s manager"s id? This can be found by viewing all employees. If the employee is a manager, or self manages, this field can be left blank.'
@@ -107,6 +108,7 @@ function addData(res) {
         .then(function (res) {
           connection.query(
             'INSERT INTO employee SET ?',
+            //this will not allow null values to be inserted. bug.
             {
               first_name: res.first_name,
               last_name: res.last_name,
@@ -118,8 +120,48 @@ function addData(res) {
               console.log("Number of records inserted: " + result.affectedRows);
             }
           )
-        })
-        break;
+        });
+      break;
+    case 'Roles':
+      inquirer.prompt([
+        {
+          name: 'title',
+          type: 'input',
+          message: 'What is the title of the role?',
+        },
+        {
+          name: 'salary',
+          type: 'input',
+          message: 'What is the desired salary for this role? Respond in digits only.',
+          // validate: async (input) => {
+          //   if (input != isnum) {
+          //     return 'Please select a number';
+          //   }
+          //   return true
+          // }
+        },
+        {
+          name: 'department_id',
+          type: 'input',
+          message: 'What is the desired department_id related to this role? The associated department ID can be found by viewing your created departments. Digits only.'
+        },
+      ])
+        .then(function (res) {
+          connection.query(
+            'INSERT INTO role SET ?',
+            //this will not allow null values to be inserted. bug.
+            {
+              title: res.title,
+              salary: res.salary,
+              department_id: res.department_id,
+            },
+            function (err, result) {
+              if (err) throw err;
+              console.log("Number of records inserted: " + result.affectedRows);
+            }
+          )
+        });
+      break;
     case 'Departments':
       inquirer.prompt([
         {
@@ -138,7 +180,7 @@ function addData(res) {
             }
           )
         });
-        break;
+      break;
   };
 
   // switch (res) {
