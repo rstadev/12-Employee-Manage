@@ -13,6 +13,8 @@
 
   ![ReadMeGen Picture](./assets/ems.png))
 
+  A demo video can be downloaded here: https://github.com/rstadev/12-Employee-Manage/blob/main/assets/demoems.mp4
+
   
   ## Table of Contents
   1. [Description](#description)
